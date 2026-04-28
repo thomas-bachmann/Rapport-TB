@@ -4,8 +4,28 @@
 \index{méthode}
 
 \section{Travaux existants}
-
+\index{travaux existants}
 
 \section{Technologies et méthodes existantes}
+\index{technologies et méthodes existantes}
+\subsection{LLM (Large Language Models)}\footnote{Ce texte a en partie été généré par intelligence artificielle, car l'IA est la mieux placée pour expliquer ce qu'est un LLM et un MCP.}
+\index{LLM}
+Les modèles de langage de grande taille (LLM, Large Language Models) sont des modèles statistiques entraînés sur de larges corpus de texte, capables de générer du texte cohérent en réponse à une entrée textuelle appelée prompt. D'un point de vue système, un LLM s'utilise comme une fonction accessible via une API REST : elle reçoit un contexte et une requête en entrée, et retourne une réponse textuelle en sortie. Ce caractère sans état (stateless) et cette interface simple en font une brique facilement intégrable dans une architecture logicielle existante.
 
-\index{technologie}
+Ce qui distingue les LLM des systèmes de traitement de texte traditionnels est leur capacité à comprendre l'intention derrière une requête en langage naturel, sans que celle-ci soit formulée de manière formelle ou structurée. Dans le cadre de ce projet, cette propriété est centrale : un opérateur ou un ingénieur doit pouvoir exprimer un problème ou une demande dans ses propres termes — "la machine 3 semble avoir un comportement anormal" — et obtenir une réponse ou une action adaptée, sans avoir à connaître la structure interne du système.
+
+Cependant, un LLM présente des limitations fondamentales qui conditionnent l'architecture du système à développer. Sa connaissance est figée à la date de son entraînement et il ne dispose d'aucun accès au monde extérieur : il ne peut ni lire l'état d'une machine en temps réel, ni exécuter une commande sur un système tiers. Utilisé seul, il est donc incapable de répondre aux exigences d'un environnement industriel dynamique. C'est précisément pour pallier ces limitations qu'un mécanisme d'extension est nécessaire, permettant au modèle d'interagir avec des sources de données et des systèmes externes — rôle que remplit le protocole MCP, présenté dans la section suivante.
+
+
+
+\subsection{Serveur MCP}\footnote{Ce texte a en partie été généré par intelligence artificielle.}
+\index{MCP}
+Le protocole MCP (Machine Communication Protocol) est un protocole de communication conçu pour faire le lien entre un LLM et des systèmes externes. L'architecture est relativement simple : un serveur MCP reçoit des requêtes du LLM, les traite en interagissant avec les systèmes externes (par exemple, en récupérant des données de capteurs ou en exécutant des commandes), puis retourne une réponse au LLM. Ce serveur agit comme un traducteur entre le langage naturel du LLM et les interfaces techniques des systèmes industriels.
+
+Avant la création du serveur MCP, les LLM étaient souvent utilisés de manière isolée, limitant leur utilité à des tâches de génération de texte ou d'assistance à la rédaction. Avec l'introduction du serveur MCP, il devient possible d'intégrer un LLM dans un environnement industriel réel, où il peut non seulement comprendre les requêtes en langage naturel, mais aussi agir sur le monde physique en temps réel. Cette capacité d'interaction ouvre de nouvelles perspectives pour l'automatisation intelligente et la maintenance prédictive dans les usines modernes.
+
+Un serveur MCP expose des outils (tools) que le LLM peut appeler pour obtenir des informations ou effectuer des actions. Par exemple, un outil pourrait permettre de récupérer les données d'un capteur de température, tandis qu'un autre pourrait exécuter une commande pour redémarrer une machine. En combinant les capacités de compréhension du langage naturel du LLM avec les fonctionnalités d'interaction du serveur MCP, il devient possible de créer un assistant intelligent capable de piloter une machine de manière efficace et intuitive.
+
+Dans notre contexte, les machines industrielles doivent être exposée comme des serveurs MCP, afin de pouvoir être contrôlées et interrogées par le LLM. Le serveur MCP agit alors comme une interface entre le LLM et les machines, permettant au modèle de langage de comprendre l'état de la machine, d'identifier les problèmes potentiels et de proposer des solutions ou des actions correctives. En intégrant un serveur MCP dans l'architecture du système, nous pouvons transformer un simple modèle de langage en un véritable assistant opérationnel capable de comprendre et d'agir dans un environnement industriel complexe.
+
+Cependant, il est important de noter que cette technologie, ains que les LLM restent encore très récents et en pleine évolution. L'intégration d'un serveur MCP dans une machine industrielle implique une sécurité accrue, car le LLM pourrait potentiellement être utilisé pour exécuter des commandes malveillantes ou même de mal comprendre une requête et d'exécuter une action non désirée. Par conséquent, la mise en place de mécanismes de contrôle d'accès et de validation des commandes est essentielle pour garantir la sécurité et la fiabilité du système.
